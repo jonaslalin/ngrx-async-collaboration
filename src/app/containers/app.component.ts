@@ -6,24 +6,20 @@ import * as fromStore from '../store';
   selector: 'app-root',
   template: `
     <div class="container mt-4">
-      <app-service name="A" (getValue)="getValueA($event)"></app-service>
-      <app-service name="B" (getValue)="getValueB($event)"></app-service>
-      <app-service name="C" (getValue)="getValueC($event)"></app-service>
+      <app-service
+        *ngFor="let service of services"
+        [name]="service"
+        (getValue)="getValue(service, $event)"
+      ></app-service>
     </div>
   `
 })
 export class AppComponent {
+  services = ['A', 'B', 'C'];
+
   constructor(private store: Store<fromStore.State>) {}
 
-  getValueA(delay: number) {
-    this.store.dispatch(fromStore.ServiceActions.getValue('A')({ delay }));
-  }
-
-  getValueB(delay: number) {
-    this.store.dispatch(fromStore.ServiceActions.getValue('B')({ delay }));
-  }
-
-  getValueC(delay: number) {
-    this.store.dispatch(fromStore.ServiceActions.getValue('C')({ delay }));
+  getValue(name: string, delay: number) {
+    this.store.dispatch(fromStore.ServiceActions.getValue(name)({ delay }));
   }
 }
