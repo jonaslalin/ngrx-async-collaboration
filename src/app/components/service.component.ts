@@ -5,23 +5,23 @@ let instanceCounter = 0;
 @Component({
   selector: 'app-service',
   template: `
-    <div class="card mb-3">
+    <div class="card mb-4">
       <div class="card-header">Service {{ name }}</div>
       <div class="card-body">
         <form class="form-inline">
-          <label [attr.for]="id" class="mr-2">Delay</label>
+          <label [attr.for]="id" class="mr-sm-2">Delay</label>
           <input
             type="number"
             min="0"
             step="1000"
             [attr.value]="initialValue"
             [attr.id]="id"
-            class="form-control mr-2"
+            class="form-control mr-sm-3"
             #delay
           />
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-primary mt-3 mt-sm-0"
             (click)="onClick(delay.value)"
           >
             Get Value

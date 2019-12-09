@@ -10,6 +10,7 @@ export class ServiceEffects {
   getValueA$ = this.getValue('A', 0.1);
   getValueB$ = this.getValue('B', 0.2);
   getValueC$ = this.getValue('C', 0.5);
+  getValueD$ = this.getValue('D', 0.0);
 
   constructor(
     private action$: Actions,

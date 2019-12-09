@@ -15,7 +15,7 @@ import * as fromStore from '../store';
   `
 })
 export class AppComponent {
-  services = ['A', 'B', 'C'];
+  services = ['A', 'B', 'C', 'D'];
 
   constructor(private store: Store<fromStore.State>) {}
 
