@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import * as fromStore from './store';
 import { effects } from './store/effects';
 
 @NgModule({
-  declarations: [fromContainers.AppComponent],
+  declarations: [fromContainers.AppComponent, fromComponents.ServiceComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot(fromStore.reducersToken, {

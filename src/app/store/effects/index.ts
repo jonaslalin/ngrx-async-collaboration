@@ -1,1 +1,3 @@
-export const effects = [];
+import { ServiceEffects } from './service.effects';
+
+export const effects = [ServiceEffects];
