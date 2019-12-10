@@ -3,10 +3,8 @@ import { Service, services } from '../../models';
 import * as fromRoot from '../reducers';
 import * as fromService from '../reducers/service.reducer';
 
-export const getState = (state: fromRoot.State) => state;
-
 export const getPending = createSelector(
-  getState,
+  fromRoot.getState,
   state =>
     services.reduce(
       (res, service) => ({
