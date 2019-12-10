@@ -5,9 +5,9 @@ import * as fromService from '../reducers/service.reducer';
 
 export const getState = (state: fromRoot.State) =>
   services.reduce(
-    (res, service) => ({ ...res, service: state[service] }),
+    (res, service) => ({ ...res, [service]: state[service] }),
     {}
-  ) as { [S in Service]: fromService.State };
+  ) as fromRoot.ServiceState;
 
 export const getPending = createSelector(
   getState,
