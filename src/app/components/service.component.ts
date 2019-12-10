@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Service } from '../models';
 
 let instanceCounter = 0;
 
@@ -6,7 +7,7 @@ let instanceCounter = 0;
   selector: 'app-service',
   template: `
     <div class="card mb-4">
-      <div class="card-header">Service {{ name }}</div>
+      <div class="card-header">Service {{ service }}</div>
       <div class="card-body">
         <form class="form-inline">
           <label [attr.for]="id" class="mr-sm-2">Delay</label>
@@ -32,7 +33,7 @@ let instanceCounter = 0;
   `
 })
 export class ServiceComponent {
-  @Input() name: string;
+  @Input() service: Service;
   @Output() getValue = new EventEmitter<number>();
   id = `delay-${instanceCounter++}`;
   initialValue = Math.floor(Math.random() * 5) * 1000;

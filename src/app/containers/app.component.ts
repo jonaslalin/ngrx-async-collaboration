@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Service, services } from '../models';
 import * as fromStore from '../store';
 
 @Component({
@@ -8,18 +9,18 @@ import * as fromStore from '../store';
     <div class="container mt-4">
       <app-service
         *ngFor="let service of services"
-        [name]="service"
+        [service]="service"
         (getValue)="getValue(service, $event)"
       ></app-service>
     </div>
   `
 })
 export class AppComponent {
-  services = ['A', 'B', 'C', 'D'];
+  services = services;
 
   constructor(private store: Store<fromStore.State>) {}
 
-  getValue(name: string, delay: number) {
-    this.store.dispatch(fromStore.ServiceActions.getValue(name)({ delay }));
+  getValue(service: Service, delay: number) {
+    this.store.dispatch(fromStore.ServiceActions.getValue(service)({ delay }));
   }
 }
