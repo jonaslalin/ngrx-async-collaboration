@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { Service } from '../models';
 
 let instanceCounter = 0;
@@ -26,14 +32,24 @@ let instanceCounter = 0;
             (click)="onClick(delay.value)"
           >
             Get Value
+            <ng-template [ngIf]="pending">
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              <span class="sr-only">Loading...</span>
+            </ng-template>
           </button>
         </form>
       </div>
     </div>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ServiceComponent {
   @Input() service: Service;
+  @Input() pending: boolean;
   @Output() getValue = new EventEmitter<number>();
   id = `delay-${instanceCounter++}`;
   initialValue = Math.floor(Math.random() * 5) * 1000;

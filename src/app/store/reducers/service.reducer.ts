@@ -34,3 +34,9 @@ export const reducer = (service: Service) =>
       error
     }))
   );
+
+export const getPending = (state: State) => state.pending;
+
+export const getValue = (state: State) => state.value;
+
+export const getError = (state: State) => state.error;
