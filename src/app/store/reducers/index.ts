@@ -15,5 +15,3 @@ export const reducers = services.reduce(
 export const reducersToken = new InjectionToken<ActionReducerMap<State>>(
   'Reducers Token'
 );
-
-export const getState = (state: State) => state;

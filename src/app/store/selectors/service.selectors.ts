@@ -3,8 +3,14 @@ import { Service, services } from '../../models';
 import * as fromRoot from '../reducers';
 import * as fromService from '../reducers/service.reducer';
 
+export const getState = (state: fromRoot.State) =>
+  services.reduce(
+    (res, service) => ({ ...res, service: state[service] }),
+    {}
+  ) as { [S in Service]: fromService.State };
+
 export const getPending = createSelector(
-  fromRoot.getState,
+  getState,
   state =>
     services.reduce(
       (res, service) => ({
