@@ -1,22 +1,19 @@
 import { createSelector } from '@ngrx/store';
-import { Service, services } from '../../models';
+import { servicesReduce } from '../../models';
 import * as fromRoot from '../reducers';
 import * as fromService from '../reducers/service.reducer';
 
-export const getState = (state: fromRoot.State) =>
-  services.reduce(
-    (res, service) => ({ ...res, [service]: state[service] }),
-    {}
-  ) as fromRoot.ServiceState;
+export const getStateByService = (state: fromRoot.State) =>
+  servicesReduce(service => state[service]);
 
-export const getPending = createSelector(
-  getState,
-  state =>
-    services.reduce(
-      (res, service) => ({
-        ...res,
-        [service]: fromService.getPending(state[service])
-      }),
-      {}
-    ) as { [S in Service]: boolean }
+export const getPendingByService = createSelector(getStateByService, state =>
+  servicesReduce(service => fromService.getPending(state[service]))
+);
+
+export const getValueByService = createSelector(getStateByService, state =>
+  servicesReduce(service => fromService.getValue(state[service]))
+);
+
+export const getErrorByService = createSelector(getStateByService, state =>
+  servicesReduce(service => fromService.getError(state[service]))
 );

@@ -10,8 +10,10 @@ import * as fromStore from '../store';
       <app-service
         *ngFor="let service of services"
         [service]="service"
-        [pending]="(pending$ | async)[service]"
-        (getValue)="getValue(service, $event)"
+        [pending]="(pendingByService$ | async)[service]"
+        [value]="(valueByService$ | async)[service]"
+        [error]="(errorByService$ | async)[service]"
+        (getValue)="onGetValue(service, $event)"
       ></app-service>
     </div>
   `,
@@ -19,11 +21,19 @@ import * as fromStore from '../store';
 })
 export class AppComponent {
   services = services;
-  pending$ = this.store.select(fromStore.ServiceSelectors.getPending);
+  pendingByService$ = this.store.select(
+    fromStore.ServiceSelectors.getPendingByService
+  );
+  valueByService$ = this.store.select(
+    fromStore.ServiceSelectors.getValueByService
+  );
+  errorByService$ = this.store.select(
+    fromStore.ServiceSelectors.getErrorByService
+  );
 
   constructor(private store: Store<fromStore.State>) {}
 
-  getValue(service: Service, delay: number) {
+  onGetValue(service: Service, delay: number) {
     this.store.dispatch(fromStore.ServiceActions.getValue(service)({ delay }));
   }
 }

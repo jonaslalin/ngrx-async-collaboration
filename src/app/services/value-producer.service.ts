@@ -6,7 +6,7 @@ import { delay as delayFn, mergeMap } from 'rxjs/operators';
 export class ValueProducerService {
   counter = 0;
 
-  getValue(delay: number, errorThreshold = 0) {
+  getValue(delay: number, errorThreshold = 0.0) {
     return of(this.counter++).pipe(
       delayFn(delay),
       mergeMap(value => {
