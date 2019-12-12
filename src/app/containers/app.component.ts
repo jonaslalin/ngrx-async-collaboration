@@ -33,7 +33,12 @@ export class AppComponent {
 
   constructor(private store: Store<fromStore.State>) {}
 
-  onGetValue(service: Service, delay: number) {
-    this.store.dispatch(fromStore.ServiceActions.getValue(service)({ delay }));
+  onGetValue(service: Service, { delay, errorProbability }) {
+    this.store.dispatch(
+      fromStore.ServiceActions.getValue(service)({
+        delay,
+        errorProbability
+      })
+    );
   }
 }
