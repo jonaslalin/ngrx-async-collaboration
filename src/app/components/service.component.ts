@@ -20,10 +20,10 @@ import { Service } from '../models';
               type="number"
               min="0"
               step="500"
-              [attr.value]="initialDelay"
               [attr.id]="'delay-' + id"
               class="form-control"
-              #delay
+              [value]="delay"
+              (input)="onDelayChange($event.target.value)"
             />
           </div>
           <div class="form-group">
@@ -35,17 +35,13 @@ import { Service } from '../models';
               min="0"
               max="1"
               step="0.1"
-              [attr.value]="initialErrorProbability"
               [attr.id]="'error-probability-' + id"
               class="form-control"
-              #errorProbability
+              [value]="errorProbability"
+              (input)="onErrorProbabilityChange($event.target.value)"
             />
           </div>
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="onGetValue(delay.value, errorProbability.value)"
-          >
+          <button type="button" class="btn btn-primary" (click)="onGetValue()">
             Get Value
           </button>
         </form>
@@ -79,23 +75,27 @@ import { Service } from '../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ServiceComponent {
+  static instanceCounter = 0;
+  id = ServiceComponent.instanceCounter++;
   @Input() service: Service;
+  @Input() delay: number;
+  @Input() errorProbability: number;
   @Input() pending: boolean;
   @Input() value: number;
   @Input() error: any;
-  @Output() getValue = new EventEmitter<{
-    delay: number;
-    errorProbability: number;
-  }>();
-  static instanceCounter = 0;
-  id = ServiceComponent.instanceCounter++;
-  initialDelay = Math.floor(Math.random() * 4) * 1000;
-  initialErrorProbability = Math.floor(Math.random() * 5 + 1) / 10;
+  @Output() delayChange = new EventEmitter<number>();
+  @Output() errorProbabilityChange = new EventEmitter<number>();
+  @Output() getValue = new EventEmitter<void>();
 
-  onGetValue(delay: string, errorProbability: string) {
-    this.getValue.next({
-      delay: Math.max(parseInt(delay, 10), 0),
-      errorProbability: Math.max(parseFloat(errorProbability), 0)
-    });
+  onDelayChange(delay: string) {
+    this.delayChange.next(parseFloat(delay));
+  }
+
+  onErrorProbabilityChange(errorProbability: string) {
+    this.errorProbabilityChange.next(parseFloat(errorProbability));
+  }
+
+  onGetValue() {
+    this.getValue.next();
   }
 }

@@ -10,10 +10,14 @@ import * as fromStore from '../store';
       <app-service
         *ngFor="let service of services"
         [service]="service"
+        [delay]="(delayByService$ | async)[service]"
+        [errorProbability]="(errorProbabilityByService$ | async)[service]"
         [pending]="(pendingByService$ | async)[service]"
         [value]="(valueByService$ | async)[service]"
         [error]="(errorByService$ | async)[service]"
-        (getValue)="onGetValue(service, $event)"
+        (delayChange)="onDelayChange(service, $event)"
+        (errorProbabilityChange)="onErrorProbabilityChange(service, $event)"
+        (getValue)="onGetValue(service)"
       ></app-service>
     </div>
   `,
@@ -21,6 +25,12 @@ import * as fromStore from '../store';
 })
 export class AppComponent {
   services = services;
+  delayByService$ = this.store.select(
+    fromStore.ServiceSelectors.getDelayByService
+  );
+  errorProbabilityByService$ = this.store.select(
+    fromStore.ServiceSelectors.getErrorProbabilityByService
+  );
   pendingByService$ = this.store.select(
     fromStore.ServiceSelectors.getPendingByService
   );
@@ -33,12 +43,21 @@ export class AppComponent {
 
   constructor(private store: Store<fromStore.State>) {}
 
-  onGetValue(service: Service, { delay, errorProbability }) {
+  onDelayChange(service: Service, delay: number) {
     this.store.dispatch(
-      fromStore.ServiceActions.getValue(service)({
-        delay,
+      fromStore.ServiceActions.updateDelay(service)({ delay })
+    );
+  }
+
+  onErrorProbabilityChange(service: Service, errorProbability: number) {
+    this.store.dispatch(
+      fromStore.ServiceActions.updateErrorProbability(service)({
         errorProbability
       })
     );
+  }
+
+  onGetValue(service: Service) {
+    this.store.dispatch(fromStore.ServiceActions.getValue(service)());
   }
 }

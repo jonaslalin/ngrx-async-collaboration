@@ -1,11 +1,17 @@
 import { createAction, props } from '@ngrx/store';
 import { Service } from '../../models';
 
-export const getValue = (service: Service) =>
+export const updateDelay = (service: Service) =>
+  createAction(`[Service ${service}] Update Delay`, props<{ delay: number }>());
+
+export const updateErrorProbability = (service: Service) =>
   createAction(
-    `[Service ${service}] Get Value`,
-    props<{ delay: number; errorProbability: number }>()
+    `[Service ${service}] Update Error Probability`,
+    props<{ errorProbability: number }>()
   );
+
+export const getValue = (service: Service) =>
+  createAction(`[Service ${service}] Get Value`);
 
 export const getValueSuccess = (service: Service) =>
   createAction(
